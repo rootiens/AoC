@@ -1,3 +1,3 @@
-module github.com/rootiens/AoC/Level2
+module github.com/rootiens/AoC/
 
 go 1.19

@@ -1,66 +1,29 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
-	data, err := os.Open("./input.txt")
+	input, err := os.ReadFile("input.txt")
 	if err != nil {
 		panic(err)
 	}
-	defer data.Close()
 
-	scanner := bufio.NewScanner(data)
-	score := 0
-	scoreB := 0
-	for scanner.Scan() {
-		opponent := string(scanner.Text()[0])
-		me := string(scanner.Text()[2])
-		switch opponent {
-		case "A":
-			if me == "X" {
-				score += 1 + 3
-				scoreB += 3 + 0
-			}
-			if me == "Y" {
-				score += 2 + 6
-				scoreB += 1 + 3
-			}
-			if me == "Z" {
-				score += 3 + 0
-				scoreB += 2 + 6
-			}
-		case "B":
-			if me == "X" {
-				score += 1 + 0
-				scoreB += 1 + 0
-			}
-			if me == "Y" {
-				score += 2 + 3
-				scoreB += 2 + 3
-			}
-			if me == "Z" {
-				score += 3 + 6
-				scoreB += 3 + 6
-			}
-		case "C":
-			if me == "X" {
-				score += 1 + 6
-				scoreB += 2 + 0
-			}
-			if me == "Y" {
-				score += 2 + 0
-				scoreB += 3 + 3
-			}
-			if me == "Z" {
-				score += 3 + 3
-				scoreB += 1 + 6
-			}
-		}
+	scores := map[string][]int{
+		"A X": {1 + 3, 3 + 0}, "A Y": {2 + 6, 1 + 3}, "A Z": {3 + 0, 2 + 6},
+		"B X": {1 + 0, 1 + 0}, "B Y": {2 + 3, 2 + 3}, "B Z": {3 + 6, 3 + 6},
+		"C X": {1 + 6, 2 + 0}, "C Y": {2 + 0, 3 + 3}, "C Z": {3 + 3, 1 + 6},
 	}
+
+	score, scoreB := 0, 0
+	for _, s := range strings.Split(strings.TrimSpace(string(input)), "\n") {
+		score += scores[s][0]
+		scoreB += scores[s][1]
+	}
+
 	fmt.Println(score)
 	fmt.Println(scoreB)
 }
