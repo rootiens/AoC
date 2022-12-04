@@ -17,6 +17,7 @@ func parse(assignment string) (int, int) {
 func main() {
 	data, _ := os.ReadFile("./input.txt")
 	var sum int
+	var overlap int
 	for _, line := range strings.Split(strings.TrimSpace(string(data)), "\n") {
 		pair := strings.Split(line, ",")
 		start, end := parse(pair[0])
@@ -24,7 +25,11 @@ func main() {
 		if (start <= startB && end >= endB) || (start >= startB && end <= endB) {
 			sum += 1
 		}
+		if !(end < startB || endB < start) {
+			overlap += 1
+		}
 
 	}
 	fmt.Println(sum)
+	fmt.Println(overlap)
 }
